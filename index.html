@@ -55,7 +55,7 @@
       background: rgba(17,17,19,0.82);
       backdrop-filter: blur(24px); -webkit-backdrop-filter: blur(24px);
       border-bottom: 1px solid var(--border-dark);
-      transition: background 300ms var(--ease-out);
+      transition: background-color 200ms var(--ease-out);
     }
     .nav-logo {
       font-family: 'Instrument Serif', serif; font-size: 1.25rem;
@@ -266,12 +266,13 @@
     }
 
     /* ============================= STEPS (LIGHT) ============================= */
-    .steps-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 2px; }
+    .steps-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 20px; }
     .step-card {
       background: var(--light-card); border: 1px solid var(--border-light);
       border-radius: var(--radius); padding: 32px 24px;
-      transition: box-shadow 300ms var(--ease-out), transform 300ms var(--ease-out);
+      transition: transform 250ms var(--ease-out), box-shadow 250ms var(--ease-out);
     }
+    .step-card:active { transform: scale(0.98); }
     @media (hover: hover) and (pointer: fine) {
       .step-card:hover { box-shadow: 0 8px 30px rgba(0,0,0,0.06); transform: translateY(-3px); }
     }
@@ -288,8 +289,9 @@
     .feat-card {
       background: var(--dark-card); border: 1px solid var(--border-dark);
       border-radius: var(--radius); padding: 30px 24px;
-      transition: border-color 300ms var(--ease-out), background 300ms var(--ease-out), transform 300ms var(--ease-out);
+      transition: transform 250ms var(--ease-out), border-color 250ms var(--ease-out), background-color 250ms var(--ease-out);
     }
+    .feat-card:active { transform: scale(0.98); }
     @media (hover: hover) and (pointer: fine) {
       .feat-card:hover { border-color: rgba(255,255,255,0.12); background: var(--dark-card-hover); transform: translateY(-2px); }
     }
@@ -301,8 +303,35 @@
     .feat-card p { font-size: 0.86rem; color: var(--text-on-dark-2); line-height: 1.55; }
 
     /* ============================= FEATURE SHOWCASE (DEEP DIVE) ============================= */
+    .s-showcase {
+      background: var(--light); color: var(--text-on-light);
+      padding: 100px 40px; position: relative; overflow: hidden;
+    }
+    /* Subtle orange corner glow — unique per section */
+    .s-showcase::before {
+      content: ''; position: absolute; width: 600px; height: 600px;
+      border-radius: 50%; pointer-events: none;
+      background: radial-gradient(circle, rgba(252, 82, 0, 0.045) 0%, transparent 70%);
+    }
+    .s-showcase.glow-tr::before { top: -200px; right: -150px; }
+    .s-showcase.glow-bl::before { bottom: -200px; left: -150px; }
+    .s-showcase.glow-br::before { bottom: -200px; right: -150px; }
+    /* Second glow for richer depth */
+    .s-showcase::after {
+      content: ''; position: absolute; width: 400px; height: 400px;
+      border-radius: 50%; pointer-events: none;
+      background: radial-gradient(circle, rgba(252, 82, 0, 0.025) 0%, transparent 70%);
+    }
+    .s-showcase.glow-tr::after { bottom: -100px; left: -80px; }
+    .s-showcase.glow-bl::after { top: -100px; right: -80px; }
+    .s-showcase.glow-br::after { top: -100px; left: -80px; }
+    /* Thin separator between consecutive showcases */
+    .s-showcase + .s-showcase {
+      border-top: 1px solid var(--border-light);
+    }
+
     .showcase {
-      display: flex; align-items: center; gap: 72px;
+      display: flex; align-items: center; gap: 72px; position: relative; z-index: 1;
     }
     .showcase.reverse { flex-direction: row-reverse; }
     .showcase-text { flex: 1; min-width: 0; }
@@ -316,8 +345,7 @@
     .showcase-text .lead {
       font-size: 1rem; line-height: 1.65; margin-bottom: 28px;
     }
-    .s-light .showcase-text .lead { color: var(--text-on-light-2); }
-    .s-dark .showcase-text .lead { color: var(--text-on-dark-2); }
+    .showcase-text .lead { color: var(--text-on-light-2); }
 
     /* Feature pills — small inline items within showcase */
     .showcase-features { display: flex; flex-direction: column; gap: 16px; }
@@ -328,25 +356,18 @@
       width: 36px; height: 36px; border-radius: 10px; flex-shrink: 0;
       display: flex; align-items: center; justify-content: center;
     }
-    .s-light .showcase-feat-icon { background: var(--accent-soft-light); color: var(--accent); }
-    .s-dark .showcase-feat-icon { background: var(--accent-soft); color: var(--accent); }
-    .showcase-feat-item h4 { font-size: 0.9rem; font-weight: 600; margin-bottom: 2px; }
-    .showcase-feat-item p { font-size: 0.84rem; line-height: 1.5; }
-    .s-light .showcase-feat-item p { color: var(--text-on-light-2); }
-    .s-dark .showcase-feat-item p { color: var(--text-on-dark-2); }
+    .showcase-feat-icon { background: var(--accent-soft-light); color: var(--accent); }
+    .showcase-feat-item h4 { font-size: 0.9rem; font-weight: 600; margin-bottom: 2px; color: var(--text-on-light); }
+    .showcase-feat-item p { font-size: 0.84rem; line-height: 1.5; color: var(--text-on-light-2); }
 
     /* Visual mockup panels used in showcases */
     .showcase-panel {
       border-radius: var(--radius-lg); position: relative; overflow: hidden;
       aspect-ratio: 5/4;
     }
-    .s-light .showcase-panel {
+    .showcase-panel {
       background: var(--light-card); border: 1px solid var(--border-light);
       box-shadow: 0 20px 60px -12px rgba(0,0,0,0.08);
-    }
-    .s-dark .showcase-panel {
-      background: var(--dark-card); border: 1px solid var(--border-dark);
-      box-shadow: 0 20px 60px -12px rgba(0,0,0,0.4);
     }
 
     /* Inner demo content for showcase panels */
@@ -400,10 +421,10 @@
     }
     .snap-overlay-badge {
       position: absolute; bottom: 12px; right: 12px;
-      background: rgba(17,17,19,0.85); backdrop-filter: blur(10px);
-      border: 1px solid var(--border-dark); border-radius: 10px;
+      background: rgba(255,255,255,0.9); backdrop-filter: blur(10px);
+      border: 1px solid var(--border-light); border-radius: 10px;
       padding: 8px 14px; display: flex; align-items: center; gap: 8px;
-      font-size: 0.7rem; color: var(--text-on-dark-2);
+      font-size: 0.7rem; color: var(--text-on-light-2);
     }
     .snap-overlay-badge .snap-dot {
       width: 6px; height: 6px; border-radius: 50%; background: var(--green);
@@ -411,10 +432,11 @@
     .snap-stats { display: flex; gap: 10px; }
     .snap-stat {
       flex: 1; padding: 12px; border-radius: 10px;
-      border: 1px solid var(--border-dark); text-align: center;
+      border: 1px solid var(--border-light); text-align: center;
+      background: var(--light);
     }
-    .snap-stat-num { font-family: 'Instrument Serif', serif; font-size: 1.4rem; margin-bottom: 2px; }
-    .snap-stat-label { font-size: 0.62rem; color: var(--text-on-dark-3); text-transform: uppercase; letter-spacing: 0.08em; }
+    .snap-stat-num { font-family: 'Instrument Serif', serif; font-size: 1.4rem; margin-bottom: 2px; color: var(--text-on-light); }
+    .snap-stat-label { font-size: 0.62rem; color: var(--text-on-light-3); text-transform: uppercase; letter-spacing: 0.08em; }
 
     /* === Showcase 3: Strava Export panel (light bg) === */
     .export-flow { height: 100%; display: flex; flex-direction: column; gap: 14px; padding: 24px; }
@@ -475,7 +497,7 @@
       font-size: 0.9rem; line-height: 1.65;
     }
     .s-dark .faq-a { color: var(--text-on-dark-2); }
-    .faq-a.open { max-height: 200px; opacity: 1; padding-bottom: 22px; }
+    .faq-a.open { max-height: 300px; opacity: 1; padding-bottom: 22px; }
 
     /* ============================= PRICING (LIGHT) ============================= */
     .pricing-wrap { display: flex; gap: 20px; justify-content: center; flex-wrap: wrap; }
@@ -557,7 +579,7 @@
       transition: color 200ms var(--ease-out), transform 160ms var(--ease-out);
     }
     .footer-socials a:hover { color: var(--text-on-dark); }
-    .footer-socials a:active { transform: scale(0.93); }
+    .footer-socials a:active { transform: scale(0.9); }
     .footer-socials a.strava-link:hover { color: var(--accent); }
     .footer-col-label { font-size: 0.7rem; text-transform: uppercase; letter-spacing: 0.1em; color: var(--text-on-dark-3); font-weight: 600; margin-bottom: 14px; }
     .footer-col a {
@@ -595,7 +617,7 @@
       to { opacity: 1; transform: scale(1) translateY(0); }
     }
 
-    /* Scroll reveal */
+    /* Scroll reveal — base */
     .reveal {
       opacity: 0; transform: translateY(24px);
       transition: opacity 600ms var(--ease-out), transform 600ms var(--ease-out);
@@ -616,6 +638,40 @@
     .visible .stagger-children > *:nth-child(4) { transition-delay: 180ms; }
     .visible .stagger-children > *:nth-child(5) { transition-delay: 240ms; }
     .visible .stagger-children > *:nth-child(6) { transition-delay: 300ms; }
+
+    /* === Motion system (Framer Motion inspired via WAAPI) === */
+    /* Showcase text — slide from left */
+    .motion-left {
+      opacity: 0; transform: translateX(-32px);
+      transition: opacity 500ms var(--ease-out), transform 600ms var(--ease-out);
+    }
+    .motion-left.in-view { opacity: 1; transform: translateX(0); }
+    /* Showcase text — slide from right (for reversed layouts) */
+    .motion-right {
+      opacity: 0; transform: translateX(32px);
+      transition: opacity 500ms var(--ease-out), transform 600ms var(--ease-out);
+    }
+    .motion-right.in-view { opacity: 1; transform: translateX(0); }
+    /* Showcase visual — scale up from slightly smaller */
+    .motion-scale {
+      opacity: 0; transform: scale(0.94);
+      transition: opacity 600ms var(--ease-out), transform 600ms var(--ease-out);
+    }
+    .motion-scale.in-view { opacity: 1; transform: scale(1); }
+    /* Feature items — slide up individually with stagger */
+    .motion-item {
+      opacity: 0; transform: translateY(16px);
+      transition: opacity 400ms var(--ease-out), transform 400ms var(--ease-out);
+    }
+    .motion-item.in-view { opacity: 1; transform: translateY(0); }
+    /* Clip reveal for panels — asymmetric wipe, heavier from bottom */
+    .motion-clip {
+      clip-path: inset(6% 4% 12% 4% round 16px);
+      transition: clip-path 700ms var(--ease-in-out);
+    }
+    .motion-clip.in-view {
+      clip-path: inset(0% 0% 0% 0% round 20px);
+    }
 
     /* Reduced motion */
     @media (prefers-reduced-motion: reduce) {
@@ -640,6 +696,7 @@
       .steps-grid { grid-template-columns: repeat(2, 1fr); }
       .feat-grid { grid-template-columns: repeat(2, 1fr); }
       .showcase, .showcase.reverse { flex-direction: column; gap: 40px; }
+      .s-showcase { padding: 72px 40px; }
       .footer-grid { grid-template-columns: 1fr 1fr; }
     }
     @media (max-width: 640px) {
@@ -648,6 +705,7 @@
       .nav-menu-btn { display: block; }
       .hero { padding: 110px 20px 60px; }
       .s-light, .s-dark { padding: 72px 20px; }
+      .s-showcase { padding: 60px 20px; }
       .cta-dark { padding: 72px 20px; }
       footer { padding: 44px 20px 28px; }
       .steps-grid { grid-template-columns: 1fr; }
@@ -870,10 +928,10 @@
   </section>
 
   <!-- =================== DEEP DIVE 1: CREATIVE INPUT (LIGHT) =================== -->
-  <section class="s-light">
-    <div class="s-inner reveal">
+  <section class="s-showcase glow-tr">
+    <div class="s-inner">
       <div class="showcase">
-        <div class="showcase-text">
+        <div class="showcase-text motion-left" data-motion>
           <p class="s-label s-label-muted">Creative input</p>
           <h2>Your art, three ways to start</h2>
           <p class="lead">Whether you have a clear vision or just want to explore, kakeru gives you the right tool for every level of creativity.</p>
@@ -907,7 +965,7 @@
             </div>
           </div>
         </div>
-        <div class="showcase-visual">
+        <div class="showcase-visual motion-scale motion-clip" data-motion>
           <div class="showcase-panel">
             <div class="panel-inner">
               <div class="input-tabs">
@@ -938,11 +996,11 @@
     </div>
   </section>
 
-  <!-- =================== DEEP DIVE 2: ROAD SNAPPING (DARK) =================== -->
-  <section class="s-dark">
-    <div class="s-inner reveal">
+  <!-- =================== DEEP DIVE 2: ROAD SNAPPING (LIGHT) =================== -->
+  <section class="s-showcase glow-bl">
+    <div class="s-inner">
       <div class="showcase reverse">
-        <div class="showcase-text">
+        <div class="showcase-text motion-right" data-motion>
           <p class="s-label s-label-accent">Road snapping</p>
           <h2>Real roads, real accuracy</h2>
           <p class="lead">Your drawing is just the starting point. Kakeru's snapping engine maps every curve onto actual roads you can run, ride, or hike on.</p>
@@ -976,7 +1034,7 @@
             </div>
           </div>
         </div>
-        <div class="showcase-visual">
+        <div class="showcase-visual motion-scale motion-clip" data-motion>
           <div class="showcase-panel">
             <div class="snap-visual">
               <div class="snap-map-area">
@@ -1026,10 +1084,10 @@
   </section>
 
   <!-- =================== DEEP DIVE 3: STRAVA EXPORT (LIGHT) =================== -->
-  <section class="s-light">
-    <div class="s-inner reveal">
+  <section class="s-showcase glow-br">
+    <div class="s-inner">
       <div class="showcase">
-        <div class="showcase-text">
+        <div class="showcase-text motion-left" data-motion>
           <p class="s-label s-label-muted">Export & run</p>
           <h2>From screen to street in one click</h2>
           <p class="lead">The fastest path from idea to action. Push your route directly to Strava — or download the GPX for any device. No friction, no file juggling.</p>
@@ -1063,7 +1121,7 @@
             </div>
           </div>
         </div>
-        <div class="showcase-visual">
+        <div class="showcase-visual motion-scale motion-clip" data-motion>
           <div class="showcase-panel">
             <div class="export-flow">
               <div class="export-step-row completed">
@@ -1237,7 +1295,7 @@
   </footer>
 
   <script>
-    // Scroll reveal
+    // ========== Scroll reveal — one-shot for structural sections ==========
     const obs = new IntersectionObserver((entries) => {
       entries.forEach(e => {
         if (e.isIntersecting) { e.target.classList.add('visible'); obs.unobserve(e.target); }
@@ -1245,7 +1303,50 @@
     }, { threshold: 0.08, rootMargin: '0px 0px -60px 0px' });
     document.querySelectorAll('.reveal').forEach(el => obs.observe(el));
 
-    // FAQ accordion
+    // ========== Motion system — REPLAY on every scroll into view ==========
+    // Stagger timers so we can cancel on exit
+    const staggerTimers = new Map();
+
+    const motionObs = new IntersectionObserver((entries) => {
+      entries.forEach(e => {
+        if (e.isIntersecting) {
+          // --- ENTER ---
+          e.target.classList.add('in-view');
+
+          // Stagger feature items inside the parent showcase
+          const showcase = e.target.closest('.showcase') || e.target.closest('.s-showcase');
+          if (showcase) {
+            const items = showcase.querySelectorAll('.showcase-feat-item');
+            const timers = [];
+            items.forEach((item, i) => {
+              const t = setTimeout(() => item.classList.add('in-view'), 150 + i * 70);
+              timers.push(t);
+            });
+            staggerTimers.set(showcase, timers);
+          }
+        } else {
+          // --- EXIT — reset so it replays next time ---
+          e.target.classList.remove('in-view');
+
+          const showcase = e.target.closest('.showcase') || e.target.closest('.s-showcase');
+          if (showcase) {
+            // Cancel any pending stagger timers
+            const timers = staggerTimers.get(showcase);
+            if (timers) { timers.forEach(clearTimeout); staggerTimers.delete(showcase); }
+            // Reset all feature items
+            showcase.querySelectorAll('.showcase-feat-item').forEach(item => {
+              item.classList.remove('in-view');
+            });
+          }
+        }
+      });
+    }, { threshold: 0.12, rootMargin: '0px 0px -60px 0px' });
+
+    // Initialize all motion elements
+    document.querySelectorAll('.showcase-feat-item').forEach(el => el.classList.add('motion-item'));
+    document.querySelectorAll('[data-motion]').forEach(el => motionObs.observe(el));
+
+    // ========== FAQ accordion ==========
     function toggleFaq(btn) {
       const expanded = btn.getAttribute('aria-expanded') === 'true';
       document.querySelectorAll('.faq-q').forEach(q => {
@@ -1257,6 +1358,21 @@
         btn.nextElementSibling.classList.add('open');
       }
     }
+
+    // ========== Smooth nav background on scroll ==========
+    const navEl = document.querySelector('nav');
+    let ticking = false;
+    window.addEventListener('scroll', () => {
+      if (!ticking) {
+        requestAnimationFrame(() => {
+          navEl.style.backgroundColor = window.scrollY > 40
+            ? 'rgba(17,17,19,0.92)'
+            : 'rgba(17,17,19,0.82)';
+          ticking = false;
+        });
+        ticking = true;
+      }
+    }, { passive: true });
   </script>
 </body>
 </html>
