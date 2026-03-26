@@ -68,9 +68,9 @@
       position: fixed; top: 0; left: 0; right: 0; z-index: 100;
       padding: 0 40px; height: 64px;
       display: flex; align-items: center; justify-content: space-between;
-      background: rgba(255,255,255,0.88);
-      backdrop-filter: blur(24px); -webkit-backdrop-filter: blur(24px);
-      border-bottom: 1px solid rgba(0,0,0,0.06);
+      background: rgba(255,255,255,0.97);
+      backdrop-filter: blur(20px); -webkit-backdrop-filter: blur(20px);
+      border-bottom: 1px solid rgba(0,0,0,0.07);
       transition: background-color 200ms var(--ease-out);
     }
     .nav-logo {
@@ -98,31 +98,31 @@
 
     /* ============================= HERO ============================= */
     .hero {
-      background: linear-gradient(145deg,
-        #0d0120 0%,
-        #2e0a6e 18%,
-        #5b21b6 38%,
-        #7c3aed 52%,
-        #a855f7 62%,
-        #db2777 78%,
-        #f43f5e 90%,
-        #fb7185 100%);
+      background:
+        radial-gradient(ellipse 70% 70% at 90% -5%,  rgba(139,92,246,0.22) 0%, transparent 60%),
+        radial-gradient(ellipse 60% 55% at -5% 90%,  rgba(236,72,153,0.16) 0%, transparent 60%),
+        radial-gradient(ellipse 50% 50% at 55% 105%, rgba(14,165,233,0.12) 0%, transparent 60%),
+        radial-gradient(ellipse 40% 40% at 15% 20%,  rgba(167,139,250,0.10) 0%, transparent 55%),
+        #ffffff;
       padding: 140px 40px 80px;
       display: flex; align-items: center; justify-content: center;
       min-height: 100vh; position: relative; overflow: hidden;
     }
-    /* Subtle noise/shimmer overlay for depth */
+    /* Extra teal blob bottom-right */
     .hero::before {
-      content: ''; position: absolute; inset: 0;
-      background:
-        radial-gradient(ellipse 80% 50% at 70% 40%, rgba(168,85,247,0.25) 0%, transparent 60%),
-        radial-gradient(ellipse 60% 40% at 20% 70%, rgba(236,72,153,0.18) 0%, transparent 60%);
-      pointer-events: none;
+      content: ''; position: absolute;
+      width: 500px; height: 500px; border-radius: 50%;
+      bottom: -15%; right: 10%;
+      background: radial-gradient(circle, rgba(14,165,233,0.10) 0%, transparent 65%);
+      filter: blur(50px); pointer-events: none;
     }
+    /* Soft pink smear middle */
     .hero::after {
-      content: ''; position: absolute; inset: 0;
-      background: radial-gradient(ellipse 40% 60% at 85% 20%, rgba(251,113,133,0.12) 0%, transparent 55%);
-      pointer-events: none;
+      content: ''; position: absolute;
+      width: 400px; height: 400px; border-radius: 50%;
+      top: 20%; left: 30%;
+      background: radial-gradient(circle, rgba(236,72,153,0.07) 0%, transparent 65%);
+      filter: blur(60px); pointer-events: none;
     }
     .hero-inner {
       display: flex; align-items: center; gap: 64px;
@@ -132,26 +132,26 @@
     .hero-badge {
       display: inline-flex; align-items: center; gap: 8px;
       padding: 5px 14px 5px 8px;
-      background: rgba(255,255,255,0.12);
-      border: 1px solid rgba(255,255,255,0.2); border-radius: 100px;
-      font-size: 0.78rem; color: rgba(255,255,255,0.85); margin-bottom: 28px;
-      backdrop-filter: blur(8px);
+      background: var(--light-card);
+      border: 1px solid var(--border-light); border-radius: 100px;
+      font-size: 0.78rem; color: var(--text-on-light-2); margin-bottom: 28px;
+      box-shadow: 0 2px 8px rgba(0,0,0,0.06);
       opacity: 0; animation: heroFadeUp 700ms var(--ease-out) 100ms forwards;
     }
     .hero-badge-dot {
-      width: 7px; height: 7px; border-radius: 50%; background: #86efac;
+      width: 7px; height: 7px; border-radius: 50%; background: var(--green);
       animation: dotPulse 2.5s ease-in-out infinite;
     }
     .hero-title {
       font-family: 'Instrument Serif', serif;
       font-size: clamp(2.6rem, 4.5vw, 3.8rem); font-weight: 400;
       line-height: 1.08; letter-spacing: -0.03em; margin-bottom: 20px;
-      color: #ffffff;
+      color: var(--text-on-light);
       opacity: 0; animation: heroFadeUp 700ms var(--ease-out) 200ms forwards;
     }
-    .hero-title em { font-style: italic; color: #fda4af; }
+    .hero-title em { font-style: italic; color: var(--highlight); }
     .hero-sub {
-      font-size: 1.05rem; color: rgba(255,255,255,0.72); max-width: 400px;
+      font-size: 1.05rem; color: var(--text-on-light-2); max-width: 400px;
       line-height: 1.65; margin-bottom: 32px;
       opacity: 0; animation: heroFadeUp 700ms var(--ease-out) 300ms forwards;
     }
@@ -161,11 +161,11 @@
     }
     .hero-proof {
       display: flex; align-items: center; gap: 18px; margin-top: 24px;
-      font-size: 0.8rem; color: rgba(255,255,255,0.5);
+      font-size: 0.8rem; color: var(--text-on-light-3);
       opacity: 0; animation: heroFadeUp 700ms var(--ease-out) 500ms forwards;
     }
     .hero-proof-item { display: flex; align-items: center; gap: 5px; }
-    .hero-proof-item svg { color: #86efac; }
+    .hero-proof-item svg { color: var(--green); }
 
     /* Buttons */
     .btn-primary {
@@ -190,7 +190,6 @@
     .btn-ghost:hover { border-color: rgba(0,0,0,0.28); background: rgba(0,0,0,0.03); }
     .btn-ghost:active { transform: scale(0.97); }
     /* Ghost variant on dark sections */
-    .hero .btn-ghost,
     .s-dark .btn-ghost, .cta-dark .btn-ghost {
       color: var(--text-on-dark);
       border-color: rgba(255,255,255,0.18);
@@ -207,10 +206,12 @@
       opacity: 0; animation: heroFadeUp 800ms var(--ease-out) 350ms forwards;
     }
     .app-mockup {
-      width: 100%; max-width: 480px; aspect-ratio: 4/3;
-      background: var(--dark-card); border: 1px solid var(--border-dark);
-      border-radius: var(--radius-lg); position: relative; overflow: hidden;
-      box-shadow: 0 40px 80px -20px rgba(0,0,0,0.6), 0 0 0 1px rgba(255,255,255,0.04);
+      width: 100%; max-width: 500px;
+      border-radius: var(--radius-lg); display: block;
+      box-shadow:
+        0 8px 16px -4px rgba(0,0,0,0.08),
+        0 24px 60px -8px rgba(124,58,237,0.18),
+        0 0 0 1px rgba(0,0,0,0.06);
     }
     .mockup-header {
       padding: 16px 20px; border-bottom: 1px solid var(--border-dark);
@@ -260,27 +261,36 @@
       animation: drawRoute 2.5s var(--ease-in-out) 1s forwards;
     }
 
-    /* Floating elements — entrance only, no idle sway */
+    /* Floating elements — entrance + continuous bob */
     .float-el {
-      position: absolute; border-radius: 12px;
-      background: var(--light-card); color: var(--text-on-light);
-      box-shadow: 0 12px 40px -8px rgba(0,0,0,0.25), 0 0 0 1px rgba(0,0,0,0.04);
+      position: absolute; border-radius: 14px;
+      background: #ffffff; color: var(--text-on-light);
+      box-shadow:
+        0 4px 6px -2px rgba(0,0,0,0.06),
+        0 12px 32px -6px rgba(124,58,237,0.14),
+        0 0 0 1px rgba(0,0,0,0.05);
       padding: 12px 16px; font-size: 0.78rem; font-weight: 500;
       display: flex; align-items: center; gap: 10px;
       opacity: 0;
     }
     .float-success {
       top: -20px; left: -40px; z-index: 3;
-      animation: floatIn 600ms var(--ease-out) 1.2s forwards;
+      animation:
+        floatIn 600ms var(--ease-out) 1.2s forwards,
+        bob 3.2s ease-in-out 1.8s infinite;
     }
     .float-accuracy {
       bottom: 20px; right: -48px; z-index: 3;
-      animation: floatIn 600ms var(--ease-out) 1.8s forwards;
+      animation:
+        floatIn 600ms var(--ease-out) 1.8s forwards,
+        bob 4s ease-in-out 2.8s infinite;
     }
     .float-shape {
       top: 40%; right: -36px; z-index: 3;
       padding: 10px 14px; font-size: 0.72rem;
-      animation: floatIn 600ms var(--ease-out) 1.5s forwards;
+      animation:
+        floatIn 600ms var(--ease-out) 1.5s forwards,
+        bobAlt 3.6s ease-in-out 2.2s infinite;
     }
     .float-icon {
       width: 32px; height: 32px; border-radius: 50%;
@@ -669,6 +679,15 @@
       from { opacity: 0; transform: scale(0.92) translateY(10px); }
       to { opacity: 1; transform: scale(1) translateY(0); }
     }
+    /* Gentle perpetual bob — top elements float up, bottom float down */
+    @keyframes bob {
+      0%, 100% { transform: translateY(0px); }
+      50%       { transform: translateY(-10px); }
+    }
+    @keyframes bobAlt {
+      0%, 100% { transform: translateY(0px); }
+      50%       { transform: translateY(8px); }
+    }
 
     /* Scroll reveal — base */
     .reveal {
@@ -936,41 +955,7 @@
           <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#4a7a5a" stroke-width="2" stroke-linejoin="round"><path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"/></svg>
           Heart
         </div>
-        <div class="app-mockup">
-          <div class="mockup-header">
-            <span class="mockup-logo">駆ける kakeru</span>
-            <span class="mockup-btn">Sign in</span>
-          </div>
-          <div class="mockup-body">
-            <div class="mockup-sidebar">
-              <div class="mockup-step-label">01 — Shape</div>
-              <div class="mockup-input">cat</div>
-              <div class="mockup-chips">
-                <span class="mockup-chip">Heart</span>
-                <span class="mockup-chip">Star</span>
-                <span class="mockup-chip active">Cat</span>
-                <span class="mockup-chip">Tree</span>
-              </div>
-              <div class="mockup-step-label" style="margin-top:8px">02 — Location</div>
-              <div class="mockup-input">London, UK</div>
-            </div>
-            <div class="mockup-map">
-              <div class="mockup-map-grid"></div>
-              <svg class="mockup-route" width="140" height="130" viewBox="0 0 140 130" fill="none">
-                <path d="M35 50 L22 20 L50 40" stroke="#4a7a5a" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/>
-                <path d="M105 50 L118 20 L90 40" stroke="#4a7a5a" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/>
-                <ellipse cx="70" cy="68" rx="40" ry="35" stroke="#4a7a5a" stroke-width="2.5" fill="none"/>
-                <circle cx="55" cy="62" r="3.5" fill="#4a7a5a" opacity="0.7"/>
-                <circle cx="85" cy="62" r="3.5" fill="#4a7a5a" opacity="0.7"/>
-                <ellipse cx="70" cy="72" rx="4" ry="3" stroke="#4a7a5a" stroke-width="1.5" fill="none"/>
-                <line x1="45" y1="68" x2="28" y2="65" stroke="#4a7a5a" stroke-width="1.2" opacity="0.6"/>
-                <line x1="45" y1="73" x2="28" y2="76" stroke="#4a7a5a" stroke-width="1.2" opacity="0.6"/>
-                <line x1="95" y1="68" x2="112" y2="65" stroke="#4a7a5a" stroke-width="1.2" opacity="0.6"/>
-                <line x1="95" y1="73" x2="112" y2="76" stroke="#4a7a5a" stroke-width="1.2" opacity="0.6"/>
-              </svg>
-            </div>
-          </div>
-        </div>
+        <img class="app-mockup" src="app-screenshot.png" alt="kakeru app — draw shapes, snap to roads, run your art" />
       </div>
     </div>
   </section>
