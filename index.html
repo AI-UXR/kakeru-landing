@@ -683,6 +683,14 @@
 
     /* ============================= RESPONSIVE ============================= */
     @media (max-width: 960px) {
+      /* Tablet: showcases stack vertically — swap horizontal slides to vertical */
+      .motion-left  { transform: translateY(20px); }
+      .motion-right { transform: translateY(20px); }
+      .motion-left.in-view  { transform: translateY(0); }
+      .motion-right.in-view { transform: translateY(0); }
+      /* Remove side clipping on tablet — panels are full-width */
+      .motion-clip { clip-path: inset(6% 0% 12% 0% round 14px); }
+      .motion-clip.in-view { clip-path: inset(0% 0% 0% 0% round 20px); }
       .hero-inner { flex-direction: column; text-align: center; gap: 48px; }
       .hero-text { flex: auto; }
       .hero-sub { margin-left: auto; margin-right: auto; }
@@ -778,14 +786,12 @@
       .input-canvas-area { min-height: 100px; }
       /* FAQ mobile */
       #faq .s-inner { max-width: 100%; }
-      /* Reveal animations: kill horizontal slides on mobile to prevent overflow */
-      .motion-left  { transform: translateY(20px); }
-      .motion-right { transform: translateY(20px); }
-      .motion-left.in-view  { transform: translateY(0); }
-      .motion-right.in-view { transform: translateY(0); }
-      /* Clip reveal: simplify to fade+scale on narrow screens */
-      .motion-clip { clip-path: inset(8% 0% 8% 0% round 12px); }
+      /* Mobile reveal — snappier timings */
+      .reveal { transition-duration: 480ms; }
+      /* Clip: tighter vertical wipe, faster on mobile */
+      .motion-clip { clip-path: inset(6% 0% 10% 0% round 12px); transition-duration: 520ms; }
       .motion-clip.in-view { clip-path: inset(0% 0% 0% 0% round 16px); }
+      /* motion-left/right already overridden at 960px to translateY */
     }
 
     /* Mobile nav */
@@ -1376,6 +1382,11 @@
     // Stagger timers so we can cancel on exit
     const staggerTimers = new Map();
 
+    // Stagger timing: on mobile stacked layouts items are closer to viewport edge —
+    // use a shorter base delay and tighter interval so they feel snappy
+    const staggerBase     = isMobile ? 60  : 150;
+    const staggerInterval = isMobile ? 50  : 70;
+
     const motionObs = new IntersectionObserver((entries) => {
       entries.forEach(e => {
         if (e.isIntersecting) {
@@ -1388,7 +1399,7 @@
             const items = showcase.querySelectorAll('.showcase-feat-item');
             const timers = [];
             items.forEach((item, i) => {
-              const t = setTimeout(() => item.classList.add('in-view'), 150 + i * 70);
+              const t = setTimeout(() => item.classList.add('in-view'), staggerBase + i * staggerInterval);
               timers.push(t);
             });
             staggerTimers.set(showcase, timers);
@@ -1409,7 +1420,9 @@
           }
         }
       });
-    }, { threshold: isMobile ? 0.06 : 0.12, rootMargin: isMobile ? '0px 0px -20px 0px' : '0px 0px -60px 0px' });
+    // Mobile: fire immediately when element enters viewport (no negative margin — panels are already close)
+    // Tablet+: -60px so animations start just before content fully lands
+    }, { threshold: isMobile ? 0.05 : 0.12, rootMargin: isMobile ? '0px 0px 0px 0px' : '0px 0px -60px 0px' });
 
     // Initialize all motion elements
     document.querySelectorAll('.showcase-feat-item').forEach(el => el.classList.add('motion-item'));
