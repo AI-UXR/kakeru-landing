@@ -750,29 +750,40 @@
       .s-showcase { padding: 60px 20px; }
       .cta-dark { padding: 72px 20px; }
       footer { padding: 44px 20px 28px; }
-      .steps-grid { grid-template-columns: 1fr; }
-      .feat-grid { grid-template-columns: 1fr; }
-      .pricing-wrap { flex-direction: column; align-items: center; }
-      .price-card { max-width: 100%; }
+      /* Full-width cards */
+      .steps-grid { grid-template-columns: 1fr; gap: 12px; }
+      .step-card { width: 100%; box-sizing: border-box; }
+      .feat-grid { grid-template-columns: 1fr; gap: 12px; }
+      .feat-card { width: 100%; box-sizing: border-box; }
+      .pricing-wrap { flex-direction: column; align-items: stretch; }
+      .price-card { width: 100%; max-width: 100%; min-width: 0; box-sizing: border-box; }
       .footer-grid { grid-template-columns: 1fr; gap: 28px; }
       .footer-bottom { flex-direction: column; gap: 14px; text-align: center; }
-      /* Hero: full bleed on mobile, no side padding */
+      /* Hero: full bleed on mobile */
       .hero-visual { padding: 0; width: 100%; min-height: auto; }
       .app-mockup { max-width: 100%; width: 100%; aspect-ratio: 4/3; border-radius: 16px; }
       .float-success { left: 0; top: -12px; transform: scale(0.82); transform-origin: left top; }
       .float-accuracy { right: 0; bottom: 8px; transform: scale(0.82); transform-origin: right bottom; }
       .float-shape { display: none; }
-      /* Showcase panels: full width, remove inner padding constraints */
-      .showcase-panel { max-width: 100%; width: 100%; aspect-ratio: auto; border-radius: 16px; }
+      /* Showcase panels: full width */
+      .showcase-panel { max-width: 100%; width: 100%; aspect-ratio: auto; border-radius: 16px; box-sizing: border-box; }
       .panel-inner { padding: 20px; height: auto; }
       .snap-visual { padding: 16px; height: auto; }
       .snap-map-area { min-height: 180px; }
       .snap-stats { flex-direction: row; gap: 8px; }
-      .snap-stat { padding: 10px 8px; }
+      .snap-stat { padding: 10px 8px; flex: 1; }
       .export-flow { padding: 16px; height: auto; }
       .input-canvas-area { min-height: 100px; }
       /* FAQ mobile */
       #faq .s-inner { max-width: 100%; }
+      /* Reveal animations: kill horizontal slides on mobile to prevent overflow */
+      .motion-left  { transform: translateY(20px); }
+      .motion-right { transform: translateY(20px); }
+      .motion-left.in-view  { transform: translateY(0); }
+      .motion-right.in-view { transform: translateY(0); }
+      /* Clip reveal: simplify to fade+scale on narrow screens */
+      .motion-clip { clip-path: inset(8% 0% 8% 0% round 12px); }
+      .motion-clip.in-view { clip-path: inset(0% 0% 0% 0% round 16px); }
     }
 
     /* Mobile nav */
@@ -1351,11 +1362,12 @@
 
   <script>
     // ========== Scroll reveal — one-shot for structural sections ==========
+    const isMobile = window.innerWidth <= 640;
     const obs = new IntersectionObserver((entries) => {
       entries.forEach(e => {
         if (e.isIntersecting) { e.target.classList.add('visible'); obs.unobserve(e.target); }
       });
-    }, { threshold: 0.08, rootMargin: '0px 0px -60px 0px' });
+    }, { threshold: 0.06, rootMargin: isMobile ? '0px 0px -20px 0px' : '0px 0px -60px 0px' });
     document.querySelectorAll('.reveal').forEach(el => obs.observe(el));
 
     // ========== Motion system — REPLAY on every scroll into view ==========
@@ -1395,7 +1407,7 @@
           }
         }
       });
-    }, { threshold: 0.12, rootMargin: '0px 0px -60px 0px' });
+    }, { threshold: isMobile ? 0.06 : 0.12, rootMargin: isMobile ? '0px 0px -20px 0px' : '0px 0px -60px 0px' });
 
     // Initialize all motion elements
     document.querySelectorAll('.showcase-feat-item').forEach(el => el.classList.add('motion-item'));
