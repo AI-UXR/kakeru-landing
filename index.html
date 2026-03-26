@@ -756,10 +756,23 @@
       .price-card { max-width: 100%; }
       .footer-grid { grid-template-columns: 1fr; gap: 28px; }
       .footer-bottom { flex-direction: column; gap: 14px; text-align: center; }
-      .float-success { left: 0; top: -12px; transform: scale(0.88); }
-      .float-accuracy { right: 0; bottom: 8px; transform: scale(0.88); }
+      /* Hero: full bleed on mobile, no side padding */
+      .hero-visual { padding: 0; width: 100%; min-height: auto; }
+      .app-mockup { max-width: 100%; width: 100%; aspect-ratio: 4/3; border-radius: 16px; }
+      .float-success { left: 0; top: -12px; transform: scale(0.82); transform-origin: left top; }
+      .float-accuracy { right: 0; bottom: 8px; transform: scale(0.82); transform-origin: right bottom; }
       .float-shape { display: none; }
-      .snap-stats { flex-direction: column; }
+      /* Showcase panels: full width, remove inner padding constraints */
+      .showcase-panel { max-width: 100%; width: 100%; aspect-ratio: auto; border-radius: 16px; }
+      .panel-inner { padding: 20px; height: auto; }
+      .snap-visual { padding: 16px; height: auto; }
+      .snap-map-area { min-height: 180px; }
+      .snap-stats { flex-direction: row; gap: 8px; }
+      .snap-stat { padding: 10px 8px; }
+      .export-flow { padding: 16px; height: auto; }
+      .input-canvas-area { min-height: 100px; }
+      /* FAQ mobile */
+      #faq .s-inner { max-width: 100%; }
     }
 
     /* Mobile nav */
